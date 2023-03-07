@@ -6,34 +6,50 @@ const myOrder=document.querySelector(".my-order");
 const cartIcon=document.querySelector(".navbar-shopping-cart");
 const orderExit=document.querySelector(".title-container img");
 const cardsContainer=document.querySelector(".cards-container");
+const productDetail=document.querySelector(".product-detail");
+const productDetailClose=document.querySelector(".product-detail-close");
+
+let elements=[];
+elements.push(desktopMenu,mobileMenu,myOrder,productDetail);
 
 menuEmail.addEventListener('click',toggleMenu);
 hambMenu.addEventListener("click",toggleMobileMenu);
 cartIcon.addEventListener("click",toggleMyOrder);
 orderExit.addEventListener("click",toggleMyOrder);
+productDetailClose.addEventListener("click",closeProductDetail);
+
+function hideElements(arr,obj){
+    for (element of arr){
+        if(!element.classList.contains("inactive") && element!=obj){
+            element.classList.add("inactive");
+        }
+    }
+}
+
 
 function toggleMenu(){
+    hideElements(elements,desktopMenu);
     desktopMenu.classList.toggle("inactive");
-    if (!myOrder.classList.contains("inactive")){
-        myOrder.classList.toggle("inactive");
-    }
 }
 
 function toggleMobileMenu(){
+    hideElements(elements,mobileMenu);
     mobileMenu.classList.toggle("inactive");
-    if (!myOrder.classList.contains("inactive")){
-        myOrder.classList.toggle("inactive");
-    }
 }
 
 function toggleMyOrder(){
+    hideElements(elements,myOrder);
     myOrder.classList.toggle("inactive");
-    if (!mobileMenu.classList.contains("inactive")){
-        mobileMenu.classList.toggle("inactive");
-    }
-    if (!desktopMenu.classList.contains("inactive")){
-        desktopMenu.classList.toggle("inactive");
-    }
+}
+
+function openProductDetail(){
+    hideElements(elements,productDetail);
+    productDetail.classList.remove("inactive");
+}
+
+function closeProductDetail(){
+    hideElements(elements,productDetail);
+    productDetail.classList.add("inactive");
 }
 
 const productList=[];
@@ -59,22 +75,7 @@ productList.push(
         price: 100,
         img: "https://images.pexels.com/photos/276517/pexels-photo-276517.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
     }
-)
-
-/*
-    <div class="product-card">
-        <img src="https://images.pexels.com/photos/276517/pexels-photo-276517.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="">
-        <div class="product-info">
-          <div>
-            <p>$120,00</p>
-            <p>Bike</p>
-          </div>
-          <figure>
-            <img src="./icons/bt_add_to_cart.svg" alt="">
-          </figure>
-        </div>
-    </div>
-*/      
+)    
 
 function renderProducts(arr){
     for (product of arr){
@@ -83,6 +84,7 @@ function renderProducts(arr){
         
             const img=document.createElement('img');
             img.setAttribute('src',product.img);
+            img.addEventListener("click",openProductDetail)
         
             const productInfo= document.createElement("div");
             productInfo.classList.add('product-info');
@@ -110,5 +112,9 @@ function renderProducts(arr){
         }
 }
 
+
+
 renderProducts(productList);
+
+
     
